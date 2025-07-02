@@ -19,7 +19,7 @@ const reviewRoute = require("./Router/review");
 const { isLoggedIn } = require("./middleware");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // ✅ MongoDB Connection
 const dbUrl = process.env.ATLASDB_URL;
@@ -44,27 +44,29 @@ app.use(methodOverride("_method"));
 
 // ✅ Static Files
 app.use(express.static(path.join(__dirname, "public")));
+
+// ✅ Session Store
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto: {
-        secret: process.env.SECREATE,
+        secret: process.env.SESSION_SECRET || 'devSecret', // ✅ fixed typo
     },
-    touchAfter: 24 * 3600,
-})
+    touchAfter: 24 * 3600, // time period in seconds
+});
 
-store.on("error", () => {
-    console.log("error in mongo session store ", err);
-})
+store.on("error", (err) => {
+    console.log("❌ Error in Mongo session store", err);
+});
 
 // ✅ Session Config
 app.use(session({
-    store: store,
-    secret: process.env.SECREATE, // ✅ Use separate secret
+    store,
+    secret: process.env.SESSION_SECRET || 'devSecret', // ✅ fixed typo
     resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-        httpOnly: true
+        httpOnly: true,
     }
 }));
 
@@ -102,7 +104,7 @@ app.get("/mypost", isLoggedIn, async (req, res) => {
     res.render("user/show_userPost", { data: posts });
 });
 
-app.get("/profile", async (req, res) => {
+app.get("/profile", isLoggedIn, async (req, res) => {
     const user = res.locals.currUser;
     const posts = await Post.find({ owner: user.id }).populate("owner").populate("comment");
     res.render("user/profile", { data: posts });
