@@ -93,10 +93,7 @@ app.use("/", userRoutes);
 app.use("/post", postRoutes);
 app.use("/post", reviewRoute);
 
-// ✅ Pages
-app.get("/", (req, res) => {
-    res.render("home");
-});
+
 
 app.get("/mypost", isLoggedIn, async (req, res) => {
     const user = res.locals.currUser;
