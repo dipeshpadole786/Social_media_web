@@ -1,0 +1,56 @@
+<% if (message && message.length) { %>
+    <div id="customAlert" style="
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        position: relative;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    ">
+        <%= message %>
+            <button onclick="document.getElementById('customAlert').style.display='none'" style="
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 18px;
+                color: #155724;
+                cursor: pointer;
+            ">
+                &times;
+            </button>
+    </div>
+    <% } %>
+        <% if (message_error && message_error.length) { %>
+            <div id="customAlert" style="
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: red;
+        color: black;
+        border: 1px solid red;
+        border-radius: 5px;
+        position: relative;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    ">
+                <%= message_error %>
+                    <button onclick="document.getElementById('customAlert').style.display='none'" style="
+                position: absolute;
+                top: 5px;
+                right: 10px;
+                background: none;
+                border: none;
+                font-size: 18px;
+                color: #155724;
+                cursor: pointer;
+            ">
+                        &times;
+                    </button> 
+            </div>
+            <% } %>

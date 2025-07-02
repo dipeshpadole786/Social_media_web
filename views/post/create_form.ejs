@@ -1,0 +1,35 @@
+<% layout('/layout/boilerplate') %>
+
+    <body style="font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0;">
+
+        <!-- Form Card -->
+        <div
+            style="max-width: 600px; background-color: white; margin: 40px auto; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <h1 style="text-align: center; margin-bottom: 20px; color: #333;">Create a New Post</h1>
+
+            <!-- ✅ Enctype added for file upload -->
+            <form action="/post" method="POST" enctype="multipart/form-data"
+                style="display: flex; flex-direction: column; gap: 18px;">
+
+                <!-- Title -->
+                <input type="text" name="title" placeholder="Enter post title" required
+                    style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" />
+
+                <!-- Description -->
+                <textarea name="description" placeholder="Enter post description" rows="4" required
+                    style="padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;"></textarea>
+
+                <!-- ✅ File Upload Field -->
+                <input type="file" name="image" accept="image/*" required
+                    style="padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px;" />
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    style="background-color: #1877f2; color: white; padding: 12px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+                    Upload Post
+                </button>
+
+            </form>
+        </div>
+
+    </body>

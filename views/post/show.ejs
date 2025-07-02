@@ -1,0 +1,274 @@
+<% layout('/layout/boilerplate') %>
+
+    <head>
+        <!-- Font Awesome for icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+        <!-- Inline Responsive CSS -->
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                background-color: #f0f2f5;
+                margin: 0;
+                padding: 30px;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: auto;
+                display: flex;
+                gap: 30px;
+                flex-wrap: wrap;
+            }
+
+            .card {
+                flex: 1 1 600px;
+                background-color: #fff;
+                border-radius: 15px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+                padding: 25px;
+            }
+
+            .title-section {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .owner-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .avatar {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(135deg, #6e8efb, #a777e3);
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-size: 1rem;
+            }
+
+            .username {
+                font-size: 0.9rem;
+                color: #333;
+                font-weight: 600;
+                line-height: 1.2;
+            }
+
+            .username span {
+                color: #888;
+                font-size: 0.8rem;
+            }
+
+            img {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                border-radius: 12px;
+                margin-top: 15px;
+            }
+
+            .delete-btn {
+                background-color: crimson;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 0.9rem;
+            }
+
+            .review-form,
+            .review-list {
+                flex: 1 1 500px;
+                background-color: #ffffff;
+                padding: 25px;
+                border-radius: 15px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            }
+
+            .review-form textarea {
+                width: 100%;
+                padding: 12px;
+                border-radius: 10px;
+                border: 1px solid #ccc;
+                resize: vertical;
+            }
+
+            .submit-btn {
+                margin-top: 15px;
+                width: 100%;
+                padding: 12px;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+
+            .review-item {
+                margin-top: 20px;
+                padding: 15px;
+                border-radius: 12px;
+                background-color: #f5f7fa;
+            }
+
+            .stars {
+                color: gold;
+            }
+
+            .star-empty {
+                color: lightgray;
+            }
+
+            .review-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .delete-review {
+                background-color: crimson;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.8rem;
+                margin-top: 10px;
+            }
+
+            @media screen and (max-width: 768px) {
+                .container {
+                    flex-direction: column;
+                    padding: 10px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container" style="margin-top: 25px;">
+
+            <!-- Post Card -->
+            <div class="card">
+
+                <!-- Title & Owner -->
+                <div class="title-section">
+                    <h1 style="margin: 0; color: #333; font-size: 1.8rem;">
+                        <i class="fas fa-thumbtack" style="color: #444;"></i>
+                        <%= data.title %>
+                    </h1>
+
+                    <div class="owner-info">
+                        <div class="avatar"><i class="fas fa-user"></i></div>
+                        <div class="username">
+                            <span>Posted by</span><br>
+                            <% if (data.owner?.username) { %>
+                                <%= data.owner.username %>
+                                    <% } else { %>
+                                        Unknown user
+                                        <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="<%= data.image %>" alt="Post Image">
+
+                <p style="margin-top: 20px; font-size: 1.05rem; color: #444; line-height: 1.6;">
+                    <%= data.description %>
+                </p>
+                <form action="/post/<%= data._id %>/delete?_method=DELETE" method="POST" style="text-align: right;">
+                    <button type="submit" class="delete-btn">
+                        <i class="fas fa-trash"></i> Delete Post
+                    </button>
+                </form>
+
+
+            </div>
+
+            <!-- Review Form -->
+            <div class="review-form">
+                <h2 style="text-align: center; color: #333;"><i class="fas fa-comment-dots"></i> Leave a Review</h2>
+
+                <form action="/post/<%= data._id %>/review" method="POST">
+                    <label style="font-weight: 600; color: #444;">Rating:</label>
+                    <input type="range" id="rating" name="review[rating]" min="1" max="5" value="4"
+                        oninput="document.getElementById('ratingValue').innerText = this.value"
+                        style="width: 100%; margin: 10px 0;">
+                    <div style="text-align: right; font-weight: bold;">⭐ <span id="ratingValue">4</span></div>
+
+                    <textarea name="review[comment]" rows="4" placeholder="Write your thoughts..." required></textarea>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Review
+                    </button>
+                </form>
+            </div>
+
+            <!-- Review List -->
+            <div class="review-list">
+                <h3 style="text-align: center; color: #333;"><i class="fas fa-comments"></i> All Reviews</h3>
+
+                <% if (!data.comment || data.comment.length===0) { %>
+                    <p style="text-align: center; color: gray;">No reviews yet. Be the first to leave one!</p>
+                    <% } else { %>
+                        <% for (let review of data.comment) { %>
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div>
+                                        <% for (let i=1; i <=5; i++) { %>
+                                            <% if (i <=review.rating) { %>
+                                                <span class="stars">★</span>
+                                                <% } else { %>
+                                                    <span class="star-empty">★</span>
+                                                    <% } %>
+                                                        <% } %>
+                                    </div>
+                                    <small style="color: #777;">
+                                        <%= new Date(review.createdAt).toLocaleDateString() %>
+                                    </small>
+                                </div>
+
+                                <p style="margin-top: 10px; font-size: 0.95rem; color: #333;">
+                                    <%= review.comment %>
+                                </p>
+                                <% if (review.author) { %>
+                                    <p style="margin-top: 10px; font-size: 0.9rem; color: #555;">
+                                        <strong>By:</strong>
+                                        <%= review.author.username %>
+                                    </p>
+                                    <% } else { %>
+                                        <p style="margin-top: 10px; font-size: 0.9rem; color: #aaa;">
+                                            <em>Author unknown</em>
+                                        </p>
+                                        <% } %>
+
+                                            <form action="/post/<%= data._id %>/review/<%= review._id %>?_method=DELETE"
+                                                method="POST">
+                                                <button type="submit" class="delete-review">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </form>
+                            </div>
+                            <% } %>
+                                <% } %>
+            </div>
+
+        </div>
+
+    </body>

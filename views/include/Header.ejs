@@ -1,0 +1,264 @@
+<!-- Interactive & Responsive Header -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<header class="header">
+    <!-- Logo -->
+    <div class="logo">
+        <i class="fas fa-globe"></i> MySocial
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search posts..." aria-label="Search posts" />
+    </div>
+
+    <!-- Hamburger Toggle -->
+    <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Links -->
+    <nav class="nav-menu">
+        <a href="/post"><i class="fas fa-home"></i> Home</a>
+        <a href="/post/create"><i class="fas fa-plus-circle"></i> New Post</a>
+        <% if (!currUser) { %>
+            <a href="/signup"><i class="fas fa-user-plus"></i> Signup</a>
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <% } else { %>
+                <a href="/mypost"><i class="fas fa-file-alt"></i> My Post</a>
+                <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <% } %>
+    </nav>
+</header>
+
+<!-- CSS -->
+<style>
+    .header {
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        padding: 20px 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        transition: all 0.3s ease;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1a73e8;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .search-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        min-width: 200px;
+        margin: 10px 20px;
+        position: relative;
+        width: 70%;
+        max-width: 450px;
+    }
+
+    .search-container .fa-search {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+
+    .search-container input {
+        width: 100%;
+        padding: 12px 15px 12px 40px;
+        border-radius: 25px;
+        border: none;
+        background: #f1f3f5;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container input:focus {
+        background: #ffffff;
+        box-shadow: 0 0 0 2px #1a73e8;
+        outline: none;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        font-size: 15px;
+        color: #1a73e8;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .nav-menu a:hover {
+        color: #174ea6;
+        transform: translateY(-1px);
+    }
+
+    .nav-menu a[href="/signup"],
+    .nav-menu a[href="/mypost"],
+    .nav-menu a[href="/profile"] {
+        color: #343a40;
+    }
+
+    .nav-menu a[href="/signup"]:hover,
+    .nav-menu a[href="/mypost"]:hover,
+    .nav-menu a[href="/profile"]:hover {
+        color: #000;
+    }
+
+    .nav-menu a[href="/login"] {
+        color: #28a745;
+    }
+
+    .nav-menu a[href="/login"]:hover {
+        color: #1c7c36;
+    }
+
+    .nav-menu a[href="/logout"] {
+        color: #dc3545;
+    }
+
+    .nav-menu a[href="/logout"]:hover {
+        color: #a71d2a;
+    }
+
+    .hamburger {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #1a73e8;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    /* Mobile Styles */
+    @media screen and (max-width: 768px) {
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
+        }
+
+        .logo,
+        .search-container,
+        .nav-menu {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .search-container input {
+            padding: 10px 15px 10px 35px;
+            font-size: 14px;
+        }
+
+        .hamburger {
+            display: block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .nav-menu {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu a {
+            padding: 12px 0;
+            font-size: 16px;
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .header {
+            padding: 12px 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+        }
+
+        .search-container input {
+            font-size: 13px;
+            padding: 8px 15px 8px 30px;
+        }
+
+        .search-container .fa-search,
+        .nav-menu a i {
+            font-size: 14px;
+        }
+
+        .hamburger {
+            font-size: 20px;
+            top: 15px;
+            right: 15px;
+        }
+    }
+</style>
+
+<!-- JavaScript for Hamburger Menu -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const isExpanded = navMenu.classList.contains('active');
+            hamburger.setAttribute('aria-expanded', isExpanded);
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.querySelector('i').classList.add('fa-bars');
+                hamburger.querySelector('i').classList.remove('fa-times');
+            }
+        });
+    });
+</script>

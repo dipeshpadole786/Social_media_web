@@ -1,0 +1,23 @@
+<% layout('/layout/boilerplate') %>
+
+    <body>
+        <form action="/signup" method="POST"
+            style="width: 300px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; margin-top: 25px; margin-bottom: 50px;">
+            <h2 style="text-align: center;">Sign Up</h2>
+
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required style="width: 100%; margin-bottom: 10px;"><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required style="width: 100%; margin-bottom: 10px;"><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required style="width: 100%; margin-bottom: 20px;"><br>
+
+            <button type="submit"
+                style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+                Sign Up
+            </button>
+        </form>
+
+    </body>

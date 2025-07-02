@@ -1,0 +1,115 @@
+<% layout('/layout/boilerplate') %>
+
+    <body
+        style="font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #e0e7ff, #f1f5f9); margin: 0; padding: 0; min-height: 100vh;">
+        <div style="max-width: 1200px; margin: 40px auto; display: flex; gap: 30px; padding: 20px;">
+            <!-- Profile Sidebar (Left) -->
+            <div
+                style="flex: 0 0 300px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); overflow: hidden;">
+                <!-- Profile Header -->
+                <div
+                    style="background: linear-gradient(90deg, #6b46c1, #3b82f6); padding: 30px 20px; color: white; text-align: center;">
+                    <img src="https://i.pravatar.cc/150?u=<%= currUser._id %>" alt="Profile Picture"
+                        style="width: 100px; height: 100px; border-radius: 50%; border: 5px solid #ffffff; margin-bottom: 15px; object-fit: cover; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease;"
+                        onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" />
+                    <h2 style="margin: 10px 0 5px; font-size: 24px; font-weight: 600; letter-spacing: 0.5px;">
+                        <%= currUser.username %>
+                    </h2>
+                    <p style="opacity: 0.85; font-size: 14px; margin: 5px 0;">
+                        <%= currUser.email %>
+                    </p>
+                    <div style="margin-top: 15px;">
+                        <a href="/edit-profile"
+                            style="background: #ffffff; color: #6b46c1; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.3s ease, color 0.3s ease;"
+                            onmouseover="this.style.background='#6b46c1'; this.style.color='#ffffff';"
+                            onmouseout="this.style.background='#ffffff'; this.style.color='#6b46c1';">
+                            Edit Profile
+                        </a>
+                    </div>
+                </div>
+                <!-- Profile Details -->
+                <div style="padding: 20px; background: #f8fafc;">
+                    <h3
+                        style="color: #1f2937; font-size: 20px; font-weight: 600; margin-bottom: 15px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;">
+                        Profile Details
+                    </h3>
+                    <ul style="list-style: none; padding: 0; color: #4b5563; font-size: 14px; line-height: 1.8;">
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                            <strong style="width: 90px; color: #1f2937;">Username:</strong>
+                            <span>
+                                <%= currUser.username %>
+                            </span>
+                        </li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                            <strong style="width: 90px; color: #1f2937;">Email:</strong>
+                            <span>
+                                <%= currUser.email %>
+                            </span>
+                        </li>
+                        <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                            <strong style="width: 90px; color: #1f2937;">User ID:</strong>
+                            <span>
+                                <%= currUser._id %>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Posts Section (Right) -->
+            <div style="flex: 1; min-width: 0;">
+                <h1
+                    style="color: #1f2937; font-size: 28px; font-weight: 700; margin-bottom: 20px; text-align: left; padding-left: 10px;">
+                    My Posts
+                </h1>
+                <% if (data.length===0) { %>
+                    <div
+                        style="background: #ffffff; border-radius: 15px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); padding: 20px; text-align: center;">
+                        <p style="color: #6b7280; font-size: 18px; font-weight: 500; margin: 0;">
+                            No posts found for your account.
+                        </p>
+                    </div>
+                    <% } else { %>
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <% for (let d of data) { %>
+                                <div style="
+                            background: #ffffff; 
+                            border-radius: 15px; 
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); 
+                            overflow: hidden; 
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;"
+                                    onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 12px 24px rgba(0, 0, 0, 0.15);'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 20px rgba(0, 0, 0, 0.1);'">
+                                    <img src="<%= d.image %>" alt="Post Image"
+                                        style="width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #e5e7eb;" />
+                                    <div style="padding: 20px;">
+                                        <h2
+                                            style="margin: 0 0 10px; font-size: 20px; font-weight: 600; color: #1f2937; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            <%= d.title %>
+                                        </h2>
+                                        <p
+                                            style="color: #4b5563; font-size: 14px; line-height: 1.6; margin: 0 0 15px; display: -webkit-box;  -webkit-box-orient: vertical; overflow: hidden;">
+                                            <%= d.description %>
+                                        </p>
+                                        <div style="display: flex; gap: 10px;">
+                                            <a href="/posts/<%= d._id %>"
+                                                style="background: #3b82f6; color: #ffffff; padding: 8px 16px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.3s ease;"
+                                                onmouseover="this.style.background='#2563eb';"
+                                                onmouseout="this.style.background='#3b82f6';">
+                                                View Post
+                                            </a>
+                                            <a href="/posts/<%= d._id %>/edit"
+                                                style="background: #e5e7eb; color: #1f2937; padding: 8px 16px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 500; transition: background 0.3s ease;"
+                                                onmouseover="this.style.background='#d1d5db';"
+                                                onmouseout="this.style.background='#e5e7eb';">
+                                                Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+    </body>
